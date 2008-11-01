@@ -1,0 +1,25 @@
+CronScheduler allows you to run cruisecontrolrb on specific times.
+
+When installed the latest build always gets run on the scheduled time.
+
+It uses the same format as cron:
+minutes  hours    mday     month    wday
+*        *        *        *        *
+
+Allowed patterns are:
+10    = run every 10th minute
+1,2,3 = run every 1st, 2nd and 3rd minute
+*     = run every minute
+*/2   = run every 2 minutes
+9-18  = run from 9 till 18
+1-9/3 = run from 1 till 9 with steps of 3
+
+For now only minutes, hours and weekdays can be set.
+
+Add it to your config:
+
+Project.configure do |project|
+  ...
+  project.scheduler = CronScheduler.new(project)
+  project.scheduler.cron = "*/15 9-18/3 * * 1,3,5"
+end
