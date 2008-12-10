@@ -16,19 +16,19 @@ class CronParserTest < Test::Unit::TestCase
   end
 
   def test_parse_limits
-    assert_raises("Cron expression requires minutes, hours, mday, month, wday") do
+    assert_raises(RuntimeError, "Cron expression requires minutes, hours, mday, month, wday") do
       CronParser.parse("1 2 3 4")
     end    
-    assert_raises("Cron expression requires minutes, hours, mday, month, wday") do
+    assert_raises(RuntimeError, "Cron expression requires minutes, hours, mday, month, wday") do
       CronParser.parse("1 2 3 4 5 6")
     end    
   end
 
   def test_parse_limits_for_characters
-    assert_raises("Cron expression only allows minutes, hours and weekday to be set") do
+    assert_raises(RuntimeError, "Cron expression only allows minutes, hours and weekday to be set") do
       CronParser.parse("1 2 3 * *")
     end    
-    assert_raises("Cron expression only allows minutes, hours and weekday to be set") do
+    assert_raises(RuntimeError, "Cron expression only allows minutes, hours and weekday to be set") do
       CronParser.parse("1 2 * 4 *")
     end
       CronParser.parse("1 2 * * 5")

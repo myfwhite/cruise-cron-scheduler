@@ -17,11 +17,11 @@ class CronSchedulerTest < Test::Unit::TestCase
 
   def test_polling_interval_limits
     assert_nothing_raised { @scheduler.polling_interval = 5.seconds }
-    assert_raises("Polling interval of 4 seconds is too small (min. 5 seconds)") do
+    assert_raises(RuntimeError, "Polling interval of 4 seconds is too small (min. 5 seconds)") do
       @scheduler.polling_interval = 4.seconds
     end
     assert_nothing_raised { @scheduler.polling_interval = 60.seconds }
-    assert_raises("Polling interval of 61 seconds is too big (max. 60 seconds)") do
+    assert_raises(RuntimeError, "Polling interval of 61 seconds is too big (max. 60 seconds)") do
       @scheduler.polling_interval = 61.seconds
     end
   end
