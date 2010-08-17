@@ -42,7 +42,7 @@ class CronSchedulerTest < Test::Unit::TestCase
   
   def test_check_build_request_until_next_polling
     @scheduler.stubs(:build_request_checking_interval).returns(0)
-    Time.expects(:now).times(3).returns(Time.at(0), Time.at(30), Time.at(60))
+    Time.expects(:now).times(3).returns(Time.at(1.hour.to_i+0).utc, Time.at(1.hour.to_i+30).utc, Time.at(1.hour.to_i+60).utc)
     @mock_project.expects(:build_if_requested).times(2)
 
     @scheduler.check_build_request_until_next_polling
@@ -50,7 +50,7 @@ class CronSchedulerTest < Test::Unit::TestCase
   
   def test_check_build_request_until_current_ends
     @scheduler.stubs(:build_request_checking_interval).returns(0)
-    Time.expects(:now).times(3).returns(Time.at(60), Time.at(90), Time.at(120))
+    Time.expects(:now).times(3).returns(Time.at(1.hour.to_i+60).utc, Time.at(1.hour.to_i+90).utc, Time.at(1.hour.to_i+120).utc)
     # @mock_project.expects(:build_if_requested).times(2)
 
     @scheduler.check_build_request_until_current_ends
@@ -58,7 +58,7 @@ class CronSchedulerTest < Test::Unit::TestCase
   
   def test_check_build_request_build_requested
     @scheduler.stubs(:build_request_checking_interval).returns(0)
-    Time.expects(:now).times(3).returns(Time.at(0), Time.at(30), Time.at(60), Time.at(61))
+    Time.expects(:now).times(3).returns(Time.at(1.hour.to_i+0).utc, Time.at(1.hour.to_i+30).utc, Time.at(1.hour.to_i+60).utc, Time.at(1.hour.to_i+61).utc)
     @mock_project.expects(:build_if_requested).times(2).returns(false, true)
 
     @scheduler.check_build_request_until_next_polling
@@ -72,7 +72,7 @@ class CronSchedulerTest < Test::Unit::TestCase
   end
   
   def test_time_to_go
-    Time.expects(:now).times(4).returns(Time.at(0), Time.at(30), Time.at(60), Time.at(120))
+    Time.expects(:now).times(4).returns(Time.at(1.hour.to_i+0).utc, Time.at(1.hour.to_i+30).utc, Time.at(1.hour.to_i+60).utc, Time.at(1.hour.to_i+120).utc)
     assert_equal false, @scheduler.time_to_go?
     assert_equal false, @scheduler.time_to_go?
     assert_equal true, @scheduler.time_to_go?
